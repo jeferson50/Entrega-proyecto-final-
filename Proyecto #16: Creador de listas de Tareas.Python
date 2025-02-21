@@ -1,1 +1,41 @@
+print("Bienvenido a tu Creador de listas de Tareas/Via Python/\n\nDime que Tareas puedo ayudarte a organizar Hoy  😎")
+
+class Tarea:
+    def __init__(self, descripcion, prioridad):
+        self.descripcion = descripcion
+        self.prioridad = prioridad
+        self.completada = False
+
+    def __str__(self):
+        estado = "[✓]" if self.completada else "[x]"
+        return f"{estado} {self.descripcion} (Prioridad: {self.prioridad})"
+
+def menu():
+    tareas = []
+    while True:
+        print("\n1. Agregar tarea\n2. Ver tareas\n3. Marcar tarea completada\n4. Salir")
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            descripcion = input("Descripción de la tarea: ")
+            prioridad = input("Prioridad (alta, media, baja): ")
+            tareas.append(Tarea(descripcion, prioridad))
+        elif opcion == "2":
+            for tarea in tareas:
+                print(tarea)
+        elif opcion == "3":
+            indice = int(input("Número de tarea a completar: ")) - 1
+            if 0 <= indice < len(tareas):
+                tareas[indice].completada = True
+                print("Tarea completada.")
+            else:
+                print("Índice inválido.")
+        elif opcion == "4":
+            print("Adiós.")
+            break
+        else:
+            print("Opción no válida.")
+
+if __name__ == "__main__":
+    menu()
 
