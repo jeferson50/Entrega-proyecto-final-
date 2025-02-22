@@ -1,41 +1,79 @@
-print("Bienvenido a tu Creador de listas de Tareas/Via Python/\n\nDime que Tareas puedo ayudarte a organizar Hoy  😎")
+# Proyecto: Creador de Listas de Tareas en Python
 
+print("Bienvenido a tu Creador de listas de Tareas/Via Python/\n\nDime que Tareas puedo ayudarte a organizar Hoy  😎")
+
+# Definición de la clase Tarea
 class Tarea:
     def __init__(self, descripcion, prioridad):
         self.descripcion = descripcion
         self.prioridad = prioridad
         self.completada = False
-
+    
+    def marcar_completada(self):
+        self.completada = True
+    
     def __str__(self):
         estado = "[✓]" if self.completada else "[x]"
         return f"{estado} {self.descripcion} (Prioridad: {self.prioridad})"
 
+# Función para mostrar el menú interactivo
+def mostrar_menu():
+    print("\n--- Menú Principal ---")
+    print("1. Agregar tarea")
+    print("2. Ver tareas")
+    print("3. Marcar tarea como completada")
+    print("4. Salir")
+
+# Función para agregar una tarea
+def agregar_tarea(tareas):
+    descripcion = input("Descripción de la tarea: ")
+    prioridad = input("Prioridad (alta, media, baja): ").lower()
+    if prioridad not in ["alta", "media", "baja"]:
+        print("Prioridad no válida. Se asignará prioridad 'baja' por defecto.")
+        prioridad = "baja"
+    tareas.append(Tarea(descripcion, prioridad))
+    print("Tarea agregada correctamente.")
+
+# Función para mostrar las tareas
+def ver_tareas(tareas):
+    if not tareas:
+        print("No hay tareas en la lista.")
+    else:
+        for i, tarea in enumerate(tareas, 1):
+            print(f"{i}. {tarea}")
+
+# Función para marcar una tarea como completada
+def completar_tarea(tareas):
+    ver_tareas(tareas)
+    try:
+        indice = int(input("Número de tarea a completar: ")) - 1
+        if 0 <= indice < len(tareas):
+            tareas[indice].marcar_completada()
+            print("Tarea marcada como completada.")
+        else:
+            print("Número inválido. Intente nuevamente.")
+    except ValueError:
+        print("Entrada no válida. Intente nuevamente.")
+
+# Función principal que controla el menú
 def menu():
     tareas = []
     while True:
-        print("\n1. Agregar tarea\n2. Ver tareas\n3. Marcar tarea completada\n4. Salir")
+        mostrar_menu()
         opcion = input("Seleccione una opción: ")
-
         if opcion == "1":
-            descripcion = input("Descripción de la tarea: ")
-            prioridad = input("Prioridad (alta, media, baja): ")
-            tareas.append(Tarea(descripcion, prioridad))
+            agregar_tarea(tareas)
         elif opcion == "2":
-            for tarea in tareas:
-                print(tarea)
+            ver_tareas(tareas)
         elif opcion == "3":
-            indice = int(input("Número de tarea a completar: ")) - 1
-            if 0 <= indice < len(tareas):
-                tareas[indice].completada = True
-                print("Tarea completada.")
-            else:
-                print("Índice inválido.")
+            completar_tarea(tareas)
         elif opcion == "4":
-            print("Adiós.")
+            print("Gracias por usar el Creador de Listas de Tareas. ¡Hasta luego!")
             break
         else:
-            print("Opción no válida.")
+            print("Opción no válida. Intente nuevamente.")
 
+# Ejecutar el programa
 if __name__ == "__main__":
     menu()
 
